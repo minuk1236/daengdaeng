@@ -11,7 +11,7 @@
 	<!-- 주로 쓸 색상  #88D5FD  -->
 
 	<div class="container">
-		<h1>메인페이지</h1>
+		<h1>메인페이지1</h1>
 	</div>
 	
 	<div class="container">
