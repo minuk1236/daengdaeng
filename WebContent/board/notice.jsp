@@ -33,36 +33,47 @@
 				<table class="table">
 					<thead style="background-color: #E84164;">
 						<tr>
-							<th scope="col">#</th>
-							<th scope="col">First</th>
-							<th scope="col">Last</th>
-							<th scope="col">Handle</th>
+							<th scope="col">번호</th>
+							<th scope="col" >제목</th>
+							<th scope="col">작성자</th>
+							<th scope="col">작성일</th>
+							<th scope="col">조회수</th>
 						</tr>
 					</thead>
 					<tbody style="background-color: white;">
 						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
+							<th scope="row">3</th>
+							<td>제목 3</td>
+							<td>작성자 3</td>
+							<td>2019-11-23</td>
+							<td>99</td>
 						</tr>
 						<tr>
 							<th scope="row">2</th>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
+							<td>제목 2</td>
+							<td>작성자 2</td>
+							<td>2019-11-10</td>
+							<td>15</td>
 						</tr>
 						<tr>
-							<th scope="row">3</th>
-							<td>Larry</td>
-							<td>the Bird</td>
-							<td>@twitter</td>
+							<th scope="row">1</th>
+							<td>제목 1</td>
+							<td>작성자 1</td>
+							<td>2019-11-02</td>
+							<td>53</td>
 						</tr>
 					</tbody>
 				</table>
 				<form action="">
 					<div class="row">
-						<div class="col-md-7"></div>
+						<div class="col-md-5"></div>
+						<div class="col-md-2">
+							<select class="custom-select">
+							  <option value="title" selected>제목</option>
+							  <option value="titlecontents">제목+내용</option>
+							  <option value="writer">작성자</option>
+							</select>
+						</div>
 						<div class="col-md-2">
 							<!-- 검색부분은 submit 버튼이랑 input 칸 하나둬서 검색하게 할겡 -->
 							<input type="text" class="form-control" id="exampleInputEmail1" placeholder="검색">

@@ -23,8 +23,8 @@
 	<jsp:setProperty property="*" name="userBean"/>
 		
 	<%
-		User user = User.getInstance();
-		user.signup(userBean);
+		User user = User.getInstance(); // 객체 가져와서
+		user.signup(userBean); // 회원가입 메소드 불러오기 
 		
 		response.sendRedirect("/DaengDaeng/index.jsp");
 	%>

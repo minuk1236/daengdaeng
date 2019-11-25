@@ -30,13 +30,13 @@
 		<div class="col-md-12">
 			<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 				<div class="carousel-inner">
-					<div class="carousel-item active">
+					<div class="carousel-item active" data-interval="1000">
 						<img src="/DaengDaeng/resources/images/1.png" class="d-block w-100" alt="...">
 					</div>
-					<div class="carousel-item">
+					<div class="carousel-item" data-interval="1000">
 						<img src="/DaengDaeng/resources/images/2.png" class="d-block w-100" alt="...">
 					</div>
-					<div class="carousel-item">
+					<div class="carousel-item" data-interval="1000">
 						<img src="/DaengDaeng/resources/images/3.png" class="d-block w-100" alt="...">
 					</div>
 				</div>

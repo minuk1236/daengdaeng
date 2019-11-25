@@ -22,6 +22,9 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="/DaengDaeng/resources/js/findValidation.js"></script>	
+
 </head>
 <body style="background-color: #FEEEE9">
 
@@ -31,20 +34,20 @@
 		<div class="col-md-4"></div>
 		<div class="col-md-4" style="border: 2px solid grey; border-radius: 2rem;">
 			<br>
-			<form>
+			<form name="findPW" action="findPasswordProcess.jsp" method="post">
 				<div class="form-group">
-					<label for="exampleInputEmail1">아이디</label> 
-					<input type="text" class="form-control" id="exampleInputEmail1" placeholder="아이디를 입력해주세요.">
+					<label for="id">아이디</label> 
+					<input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력해주세요.">
 				</div>
 				<div class="form-group">
-					<label for="exampleInputEmail1">이름</label> 
-					<input type="text" class="form-control" id="exampleInputEmail1" placeholder="이름을 입력해주세요.">
+					<label for="name">이름</label> 
+					<input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력해주세요.">
 				</div>
 				<div class="form-group">
-					<label for="exampleInputEmail1">생년월일</label> 
-					<input type="text" class="form-control" id="exampleInputEmail1" placeholder="생년월일을 입력해주세요.">
+					<label for="birth">생년월일</label> 
+					<input type="text" class="form-control" id="birth" name="birth" placeholder="생년월일을 입력해주세요.">
 				</div>
-				<button type="submit" class="btn btn-danger btn-rounded waves-effect btn-lg btn-block">찾기</button>
+				<button type="button" class="btn btn-danger btn-rounded waves-effect btn-lg btn-block" onclick="checkpw()">찾기</button>
 			</form>
 			
 			<hr style="border: solid 2px gray;">

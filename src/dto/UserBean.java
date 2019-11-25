@@ -8,6 +8,11 @@ public class UserBean {
 	private String gender; // 성별
 	private String email; // 이메일
 	private String phone; // 연락처
+	
+	public UserBean() {
+		
+	}
+	
 	public String getId() {
 		return id;
 	}

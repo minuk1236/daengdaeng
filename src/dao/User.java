@@ -38,7 +38,7 @@ public class User {
 			pstmt.setString(2, bean.getPassword());
 			pstmt.setString(3, bean.getName());
 			pstmt.setString(4, bean.getBirth());
-			pstmt.setString(5, bean.getBirth());
+			pstmt.setString(5, bean.getGender());
 			pstmt.setString(6, bean.getEmail());
 			pstmt.setString(7, bean.getPhone());
 			
@@ -50,8 +50,38 @@ public class User {
 			DBConnection.close(conn);	
 		}
 		
-			
 	}
+	
+	 public boolean login(String id, String password) {
+
+	      boolean result = false;
+	      conn = DBConnection.getConnection();
+	      String sql = "select user_password from user where user_id=?";
+	      try {
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, id);
+	         
+	         rs = pstmt.executeQuery();
+	         if(rs.next()) {
+	            if(rs.getString("user_password").equals(password)) {
+	               result = true;
+	            }
+	         }
+	         
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         DBConnection.close(pstmt);
+	         DBConnection.close(conn);   
+	         DBConnection.close(rs);
+	      }
+	      
+	      return result;
+
+
+	   }
+
+	
 	public boolean confirmId(String id) {
 		boolean result = false;
 		
@@ -72,12 +102,64 @@ public class User {
 		} finally {
 			DBConnection.close(pstmt);
 			DBConnection.close(conn);	
+			DBConnection.close(rs);
 		}
 		
 		return result;
 		
+	}
+	public String searchId(String name, String birth, String phone) {
+		String result = null;
+		
+		conn = DBConnection.getConnection();
+		String sql = "select user_id from user where user_name=? and user_birth=? and user_phonenum=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, birth);
+			pstmt.setString(3, phone);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getString("user_id");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt);
+			DBConnection.close(conn);	
+			DBConnection.close(rs);
+		}
+		
+		return result;
 		
 	}
-	
+	public String searchPW(String id, String name, String birth) {
+		String result = null;
+		
+		conn = DBConnection.getConnection();
+		String sql = "select user_password from user where user_id=? and user_name=? and user_birth=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, name);
+			pstmt.setString(3, birth);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getString("user_password");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt);
+			DBConnection.close(conn);	
+			DBConnection.close(rs);
+		}
+		
+		return result;
+	}
 	
 }

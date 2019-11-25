@@ -98,6 +98,18 @@
                         </div>
                     </div>
                 </div>
+                
+                <br><br>
+                <nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center font_color">
+						<li class="page-item disabled">
+						<a class="page-link font_color" href="#" tabindex="-1" aria-disabled="true">Previous</a></li>
+						<li class="page-item"><a class="page-link font_color" href="#">1</a></li>
+						<li class="page-item"><a class="page-link font_color" href="#">2</a></li>
+						<li class="page-item"><a class="page-link font_color" href="#">3</a></li>
+						<li class="page-item"><a class="page-link font_color" href="#">Next</a></li>
+					</ul>
+				</nav>
             </div>            
         </div>
 	</div>

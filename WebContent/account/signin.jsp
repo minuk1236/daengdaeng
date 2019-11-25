@@ -22,6 +22,9 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
+	
+<script type="text/javascript" src="/DaengDaeng/resources/js/signinValidation.js"></script>	
+	
 </head>
 <body style="background-color: #FEEEE9">
 
@@ -33,16 +36,16 @@
 		<div class="col-md-4"></div>
 		<div class="col-md-4" style="border: 2px solid grey; border-radius: 2rem;">
 			<br>
-			<form>
+			<form action="signinProcess.jsp" method="post" name="signin">
 				<div class="form-group">
-					<label for="아이디랑 똑같이 해야함">아이디</label> 
-					<input type="text" class="form-control" id="exampleInputEmail1" placeholder="아이디를 입력해주세요.">
+					<label for="id">아이디</label> 
+					<input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력해주세요.">
 				</div>
 				<div class="form-group">
-					<label for="exampleInputPassword1">비밀번호</label> 
-					<input type="password" class="form-control" id="exampleInputPassword1" placeholder="비밀번호를 입력해주세요.">
+					<label for="password">비밀번호</label> 
+					<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력해주세요.">
 				</div>
-				<button type="submit" class="btn btn-danger btn-rounded waves-effect btn-lg btn-block">로그인</button>
+				<button type="button" class="btn btn-danger btn-rounded waves-effect btn-lg btn-block" onclick="check()">로그인</button>
 			</form>
 			
 			<hr style="border: solid 2px gray;">
