@@ -13,7 +13,7 @@ public class DBConnection {
 
 		Connection conn = null;
 		String driver = "com.mysql.cj.jdbc.Driver";
-		String url = "jdbc:mysql://127.0.0.1:3306/DaengDaeng?serverTimezone=UTC";
+		String url = "jdbc:mysql://127.0.0.1:3306/DaengDaeng?useSSL=false&serverTimezone=UTC";
 		String user = "root";
 		String password = "alsdnrdl10";
 
