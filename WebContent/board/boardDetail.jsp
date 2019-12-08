@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="dao.BoardDAO"%>
 <%@page import="dto.BoardBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -24,8 +25,9 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
-</head>
 
+
+</head>
 <body style="background-color: #FEEEE9">
 
 	<%@include file="../header.jsp"%>
@@ -55,7 +57,7 @@
 		<div class="col-sm-1"></div>
 		<div class="col-sm-10">
 			<br> <br>
-			<form>
+			<form id="form" name="form" method="get" action="/DaengDaeng/downloadProcess">
 				<div class="card" style="background-color: rgba(255, 238, 212, 0.445);">
 					<div class="card-header" style="background-color: rgb(253, 77, 77);">
 						<div class="row">
@@ -72,7 +74,7 @@
 					</div>
 				</div>
 				
-				<div class="card-body" style="background-color: white; padding-bottom: 50px;">
+				<div class="card-body" style="background-color: white; padding-bottom: 80px;">
 					<h5 class="card-title" style="height: 400px;">
 						<div class="row">
 							<div class="col-sm-2" style="border-right: solid .5px; text-align: center; line-height: 400px;">내용</div>
@@ -86,14 +88,21 @@
 					<%
 						if(userID != null && userID.equals(boardBean.getNoticeWirter())){
 					%>
-					<a style="float: right;" href="/DaengDaeng/board/deleteProcess.jsp?noticeNum=<%=noticeID %>" class="btn btn-danger"><strong>삭제</strong></a>
+					<a style="float: right;" href="/DaengDaeng/board/deleteProcess.jsp?noticeNum=<%=noticeID %>" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')"><strong>삭제</strong></a>
 					<a style="float: right;" href="">&nbsp;&nbsp;&nbsp;</a> 
 					<a style="float: right;" href="/DaengDaeng/board/boardUpdate.jsp?noticeNum=<%=noticeID %>" class="btn btn-danger"><strong>수정</strong></a>
 					<%
 						}
 					%>
 					
-					<h5 style="float: left; padding: 0 5px 0 0;">등록일 : <%=boardBean.getNoticeCreateDate() %></h5>
+					<h5 style="float: left; padding: 0 5px 0 0;">등록일 : <%=boardBean.getNoticeCreateDate() %><br><br>
+					 첨부 파일 :
+					  <%
+					  	String filename = URLEncoder.encode(boardBean.getNoticeFileName(),"utf-8");
+					  %>
+					  <input type="submit" id="filename" name="filename" value=<%=boardBean.getNoticeFileName() %> readonly style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;"> </h5>
+					
+					
 				</div>
 			</form>
 		</div>

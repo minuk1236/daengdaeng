@@ -23,9 +23,10 @@ public class BoardDAO {
 		return instance;
 	}
 	
-	public int write(int type, String title, String contents, String writer) {
+	public int write(int type, String title, String contents, String writer, String fileName, String fileRealName) {
 		String date = null;
 		int nextBoard; // 다음 글 번호 
+		String fileurl = "C:\\Users\\MIN\\Desktop\\웹프 프로젝트\\JSPProject\\DaengDaeng\\WebContent\\resources\\upload\\" + fileRealName;
 		try {
 			conn = DBConnection.getConnection();
 			String sql = "select notice_num from board order by notice_num desc";
@@ -45,19 +46,34 @@ public class BoardDAO {
 				date = rs.getString(1);
 			}
 		    // insert into board(notice_type, notice_title, notice_contents, notice_writer, notice_create_date, notice_fileurl)
-			sql = "insert into board(notice_num, notice_type, notice_title, notice_contents, notice_writer, notice_create_date) values(?,?,?,?,?,?)";
-			pstmt = conn.prepareStatement(sql);
+			if(fileName != null && fileRealName != null) {
+				sql = "insert into board(notice_num, notice_type, notice_title, notice_contents, notice_writer, notice_create_date, notice_filename, notice_filerealname, notice_fileurl) values(?,?,?,?,?,?,?,?,?)";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, nextBoard);
+				pstmt.setInt(2, type);
+				pstmt.setString(3, title);
+				pstmt.setString(4, contents);
+				pstmt.setString(5, writer);
+				pstmt.setString(6, date);
+				pstmt.setString(7, fileName);
+				pstmt.setString(8, fileRealName);
+				pstmt.setString(9, fileurl);
+				pstmt.executeUpdate();
+			}else {
+				sql = "insert into board(notice_num, notice_type, notice_title, notice_contents, notice_writer, notice_create_date) values(?,?,?,?,?,?)";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, nextBoard);
+				pstmt.setInt(2, type);
+				pstmt.setString(3, title);
+				pstmt.setString(4, contents);
+				pstmt.setString(5, writer);
+				pstmt.setString(6, date);
+				
+				pstmt.executeUpdate();
+			}
 			
-			pstmt.setInt(1, nextBoard);
-			pstmt.setInt(2, type);
-			pstmt.setString(3, title);
-			pstmt.setString(4, contents);
-			pstmt.setString(5, writer);
-			pstmt.setString(6, date);
-			
-			
-			//pstmt.setString(6, fileurl);
-			pstmt.executeUpdate();
 			return 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -99,7 +115,9 @@ public class BoardDAO {
 				boardBean.setNoticeCreateDate(rs.getString(6));
 				boardBean.setNoticeModifyDate(rs.getString(7));
 				boardBean.setNoticeViewsnum(rs.getInt(8));
-				boardBean.setNoticeFileurl(rs.getString(9));
+				boardBean.setNoticeFileName(rs.getString(9));
+				boardBean.setNoticeFileRealName(rs.getString(10));
+				boardBean.setNoticeFileurl(rs.getString(11));
 				list.add(boardBean);
 			}
 		} catch (SQLException e) {
@@ -161,7 +179,9 @@ public class BoardDAO {
 				boardBean.setNoticeCreateDate(rs.getString(6));
 				boardBean.setNoticeModifyDate(rs.getString(7));
 				boardBean.setNoticeViewsnum(rs.getInt(8));
-				boardBean.setNoticeFileurl(rs.getString(9));
+				boardBean.setNoticeFileName(rs.getString(9));
+				boardBean.setNoticeFileRealName(rs.getString(10));
+				boardBean.setNoticeFileurl(rs.getString(11));
 				return boardBean;
 			}
 		} catch (SQLException e) {

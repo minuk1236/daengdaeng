@@ -1,7 +1,9 @@
+<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
+<%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="dao.BoardDAO" %>
-
+<jsp:useBean id="board" class="dto.BoardBean" scope="request" />
 
 <!DOCTYPE html>
 <html>
@@ -12,11 +14,19 @@
 <body>
 	<%
 		request.setCharacterEncoding("utf-8");
+		int maxSize = 5 * 1024 * 1024; // 5M 
+		MultipartRequest multi = new MultipartRequest(request, "C:\\Users\\MIN\\Desktop\\웹프 프로젝트\\JSPProject\\DaengDaeng\\WebContent\\resources\\upload",maxSize,"utf-8",new DefaultFileRenamePolicy());
+		
+		String fileName = multi.getOriginalFileName("file");
+		String fileRealName = multi.getFilesystemName("file");
+		
+		board.setNoticeTitle(multi.getParameter("title"));
+		board.setNoticeContents(multi.getParameter("contents"));
+		board.setNoticeFileName(fileName);
+		board.setNoticeFileRealName(fileRealName);
+		
 	%>
 	
-<jsp:useBean id="board" class="dto.BoardBean" scope="request" />
-	<jsp:setProperty name="board" property="noticeTitle" param="title"/>
-	<jsp:setProperty name="board" property="noticeContents" param="contents" />
 	<%
 			//세션얻기
 			String userID = null;
@@ -36,7 +46,7 @@
 					out.println("</script>");
 				}else{
 					BoardDAO boardDAO = BoardDAO.getInstance();
-					int result = boardDAO.write(1,board.getNoticeTitle() , board.getNoticeContents(), userID);
+					int result = boardDAO.write(1,board.getNoticeTitle() , board.getNoticeContents(), userID, board.getNoticeFileName(), board.getNoticeFileRealName());
 					if(result == -1){
 						out.println("<script>");
 						out.println("alert('글쓰기에 실패했습니다. ')");

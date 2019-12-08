@@ -49,7 +49,7 @@
 					<div>
 						<table class="table table-striped table-bordered table-hover ">
 							<tbody align="center">
-								<form method="post" action="writeProcess.jsp">
+								<form method="post" action="writeProcess.jsp" enctype="multipart/form-data">
 									<div class="card" style="padding-bottom: 50px;">
 										<div class="card-body">
 											<div class='form-group'>
@@ -58,12 +58,12 @@
 											</div>
 
 											<div class='form-group' style="height: 200px">
-												<label name="contents" for="contents" style="color: black;">내용:</label>
+												<label for="contents" style="color: black;">내용:</label>
 												<textarea name="contents" id="contents" class="form-control" style="height: 150px"></textarea>
 											</div>
 
 											<div class="form-group" style="border: 1px solid gray">
-												<input type="file" class="form-control-file" id="file">
+												<input type="file" class="form-control-file" id="file" name="file">
 											</div>
 										</div>
 									</div>

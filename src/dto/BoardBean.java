@@ -9,6 +9,24 @@ public class BoardBean {
 	private String noticeCreateDate; // 작성일
 	private String noticeModifyDate; // 수정일
 	private int noticeViewsnum; // 조회수
+	private String noticeFileName; // 파일 이름
+	private String noticeFileRealName; // 파일 real 이름
+	public String getNoticeFileName() {
+		return noticeFileName;
+	}
+
+	public void setNoticeFileName(String noticeFileName) {
+		this.noticeFileName = noticeFileName;
+	}
+
+	public String getNoticeFileRealName() {
+		return noticeFileRealName;
+	}
+
+	public void setNoticeFileRealName(String noticeFileRealName) {
+		this.noticeFileRealName = noticeFileRealName;
+	}
+
 	private String noticeFileurl; // 파일 URL
 	
 	public BoardBean () {
