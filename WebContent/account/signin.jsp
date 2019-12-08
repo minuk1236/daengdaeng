@@ -30,6 +30,20 @@
 
 	<%@include file="../header.jsp"%>
 	
+	<%
+		String id = null;
+		if(session.getAttribute("userID") != null){
+	    	id = (String) session.getAttribute("userID");
+	    }
+	    if(id != null){
+	    	out.println("<script>");
+	    	out.println("alert('이미 로그인이 되어있습니다.')");
+	    	out.println("location.href = '/DaengDaeng/index.jsp'");
+	    	out.println("</script>");
+	    }
+    
+	%>
+	
 	<br>
 	<div class="container" >
 	<div class="row">

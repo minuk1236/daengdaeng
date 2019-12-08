@@ -14,10 +14,6 @@ public class User {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	
-	private User() {
-		
-	}
-	
 	// 사용자 객체 가져오기
 	public static User getInstance() {
 		if(instance == null) {

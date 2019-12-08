@@ -1,7 +1,4 @@
 <%@page import="dao.User"%>
-<%@page import="java.sql.PreparedStatement"%>
-<%@page import="database.DBConnection"%>
-<%@page import="java.sql.Connection"%>
 <%@page import="dto.UserBean" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -25,7 +22,8 @@
 	<%
 		User user = User.getInstance(); // 객체 가져와서
 		user.signup(userBean); // 회원가입 메소드 불러오기 
-		
+
+		session.setAttribute("userID", userBean.getId());
 		response.sendRedirect("/DaengDaeng/index.jsp");
 	%>
 </body>

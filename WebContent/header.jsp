@@ -23,6 +23,13 @@
 	crossorigin="anonymous"></script>
 </head>
 <body style="background-color: #FEEEE9">
+	<%
+		//세션 가져오기
+		String userID = null;
+		if(session.getAttribute("userID") != null){
+			userID = (String)session.getAttribute("userID");
+		}
+	%>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -31,8 +38,20 @@
 					<h1 style="text-align: center; margin-top: 30px; font-size: 60px;"><a href="/DaengDaeng/index.jsp" style="color: #212529">댕댕이</a></h1>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-					<a href="/DaengDaeng/account/signin.jsp"><button type="button" class="btn btn-outline-danger" style="height: 40px; margin-top: 30px;">로그인</button></a>
-					<a href="/DaengDaeng/account/signup.jsp"><button type="button" class="btn btn-outline-danger" style="height: 40px; margin-top: 30px; margin-left: 20px;">회원가입</button></a>
+					<%
+						if(userID == null){
+					%>
+						<a href="/DaengDaeng/account/signin.jsp"><button type="button" class="btn btn-outline-danger" style="height: 40px; margin-top: 30px;">로그인</button></a>
+						<a href="/DaengDaeng/account/signup.jsp"><button type="button" class="btn btn-outline-danger" style="height: 40px; margin-top: 30px; margin-left: 20px;">회원가입</button></a>
+					<%	
+						}else{
+					%>
+						<a href="/DaengDaeng/account/mypage.jsp"><button type="button" class="btn btn-outline-danger" style="height: 40px; margin-top: 30px;">마이페이지</button></a>
+						<a href="/DaengDaeng/account/signout.jsp"><button type="button" class="btn btn-outline-danger" style="height: 40px; margin-top: 30px; margin-left: 20px;">로그아웃</button></a>
+					<%
+						}
+					%>
+					
 				</div>
 				<hr>
 				<nav class="nav d-flex justify-content-between">

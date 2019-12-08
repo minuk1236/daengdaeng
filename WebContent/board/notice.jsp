@@ -1,12 +1,13 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ page import="dao.BoardDAO" %>
+<%@ page import="dto.BoardBean" %>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>댕댕이 사이트 입니다.</title>
-<link href="/DaengDaeng/resources/css/style.css" rel="stylesheet"
-	type="text/css">
+<link href="/DaengDaeng/resources/css/style.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -22,10 +23,25 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
+	
 </head>
 <body style="background-color: #FEEEE9">
 	
 	<%@include file="../header.jsp"%>
+	
+	<%
+		//세션얻기
+		//String userID = null;
+		if(session.getAttribute("userID") != null){
+			userID = (String) session.getAttribute("userID");
+		}
+		
+		int pageNumber = 1;
+		if(request.getParameter("pageNumber") != null){
+			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		}
+	%>
+	
 	<div class="container">
 	<div id="wrap">
 		<div class="row">
@@ -41,27 +57,22 @@
 						</tr>
 					</thead>
 					<tbody style="background-color: white;">
+						<%
+							BoardDAO boardDAO = BoardDAO.getInstance();
+							ArrayList<BoardBean> list = boardDAO.getList(pageNumber);
+							for(BoardBean board : list){
+						%>
 						<tr>
-							<th scope="row">3</th>
-							<td>제목 3</td>
-							<td>작성자 3</td>
-							<td>2019-11-23</td>
-							<td>99</td>
+							<th scope="row"><%=board.getNoticeNum() %></th>
+							<td><a href="boardDetail.jsp?noticeNum=<%=board.getNoticeNum() %>" style="color: #000000; text_decoration: none;"><%=board.getNoticeTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>") %></a></td>
+							<td><%=board.getNoticeWirter() %></td>
+							<td><%=board.getNoticeCreateDate() %></td>
+							<td><%=board.getNoticeViewsnum() %></td>
 						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>제목 2</td>
-							<td>작성자 2</td>
-							<td>2019-11-10</td>
-							<td>15</td>
-						</tr>
-						<tr>
-							<th scope="row">1</th>
-							<td>제목 1</td>
-							<td>작성자 1</td>
-							<td>2019-11-02</td>
-							<td>53</td>
-						</tr>
+						
+						<%		
+							}
+						%>
 					</tbody>
 				</table>
 				<form action="">
@@ -82,7 +93,7 @@
 							<button type="submit" class="btn btn-danger">검색</button>
 						</div>
 						<div class="col-md-2">
-							<a href=""><button type="button" class="btn btn-danger">글쓰기</button></a>
+							<a href="/DaengDaeng/board/boardWrite.jsp"><button type="button" class="btn btn-danger">글쓰기</button></a>
 						</div>
 					</div>
 				</form>
@@ -90,12 +101,22 @@
 
 				<nav aria-label="Page navigation example">
 					<ul class="pagination justify-content-center font_color">
-						<li class="page-item disabled">
-						<a class="page-link font_color" href="#" tabindex="-1" aria-disabled="true">Previous</a></li>
+						<%
+							if(pageNumber != 1){ // 2페이지 이상 존재
+						%>
+							<li class="page-item disabled"><a class="page-link font_color" href="/DaengDaeng/board/notice.jsp?pageNumber=<%=pageNumber -1 %>" tabindex="-1" aria-disabled="true">&lt;</a></li>
+						<%
+							} if(boardDAO.nextPage(pageNumber+1)){
+						%>
+							<li class="page-item"><a class="page-link font_color" href="/DaengDaeng/board/notice.jsp?pageNumber=<%=pageNumber +1 %>">&gt;</a></li>
+						<%
+							}
+						%>
+						
 						<li class="page-item"><a class="page-link font_color" href="#">1</a></li>
 						<li class="page-item"><a class="page-link font_color" href="#">2</a></li>
 						<li class="page-item"><a class="page-link font_color" href="#">3</a></li>
-						<li class="page-item"><a class="page-link font_color" href="#">Next</a></li>
+						
 					</ul>
 				</nav>
 			</div>

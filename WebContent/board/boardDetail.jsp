@@ -1,3 +1,5 @@
+<%@page import="dao.BoardDAO"%>
+<%@page import="dto.BoardBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -23,9 +25,31 @@
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
 </head>
+
 <body style="background-color: #FEEEE9">
 
 	<%@include file="../header.jsp"%>
+	<%
+		//세션얻기
+		//String userID = null;
+		if(session.getAttribute("userID") != null){
+			userID = (String) session.getAttribute("userID");
+		}
+		
+		int noticeID = 0;
+		if(request.getParameter("noticeNum") != null){
+			noticeID = Integer.parseInt(request.getParameter("noticeNum"));
+		}
+		if(noticeID == 0){
+			out.println("<script>");
+			out.println("alert('유효하지 않는 글입니다.')");
+			out.println("location.href = '/DaengDaeng/board/notice.jsp'");
+			out.println("</script>");
+		}
+		BoardBean boardBean = BoardDAO.getInstance().getBoard(noticeID);
+		
+	%>
+	
 <div class="container" >
 	<div class="row">
 		<div class="col-sm-1"></div>
@@ -36,13 +60,13 @@
 					<div class="card-header" style="background-color: rgb(253, 77, 77);">
 						<div class="row">
 							<div class="col-sm-2" style="border-right: solid .5px white; text-align: center; color: white;">
-								<h3 style="color: white;">Title</h3>
+								<h3 style="color: white;">제목</h3>
 							</div>
 							<div class="col-sm-9" style="color: white;">
-								<h3 style="color: white;">제목이 표시되는 부분</h3>
+								<h3 id="title" name="title" style="color: white;"><%=boardBean.getNoticeTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>") %></h3>
 							</div>
 							<div>
-								<a style="position: absolute; float: left; color: white; text-shadow: 1px 1px 1px gray; font-size: 13px; vertical-align: middle;">조회수</a>
+								<a style="position: absolute; float: left; color: white; text-shadow: 1px 1px 1px gray; font-size: 13px; vertical-align: middle;">조회수 : <%=boardBean.getNoticeViewsnum() %></a>
 							</div>
 						</div>
 					</div>
@@ -51,15 +75,25 @@
 				<div class="card-body" style="background-color: white; padding-bottom: 50px;">
 					<h5 class="card-title" style="height: 400px;">
 						<div class="row">
-							<div class="col-sm-2" style="border-right: solid .5px; text-align: center; line-height: 400px;">Contents</div>
-							<div class="col-sm-8">여기에 게시글 디테일 내용표시</div>
+							<div class="col-sm-2" style="border-right: solid .5px; text-align: center; line-height: 400px;">내용</div>
+							<div class="col-sm-8"><%=boardBean.getNoticeContents().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>") %></div>
 						</div>
 					</h5>
 					<hr style="border: solid .5px black;">
-					<a style="float: right;" href="#" class="btn btn-danger"><strong>수정</strong></a>
+					
+					<a style="float: right;" href="/DaengDaeng/board/notice.jsp" class="btn btn-danger"><strong>목록</strong></a>
 					<a style="float: right;" href="">&nbsp;&nbsp;&nbsp;</a> 
-					<a style="float: right;" href="#" class="btn btn-danger"><strong>삭제</strong></a>
-					<h5 style="float: left; padding: 0 5px 0 0;">date</h5>
+					<%
+						if(userID != null && userID.equals(boardBean.getNoticeWirter())){
+					%>
+					<a style="float: right;" href="/DaengDaeng/board/deleteProcess.jsp?noticeNum=<%=noticeID %>" class="btn btn-danger"><strong>삭제</strong></a>
+					<a style="float: right;" href="">&nbsp;&nbsp;&nbsp;</a> 
+					<a style="float: right;" href="/DaengDaeng/board/boardUpdate.jsp?noticeNum=<%=noticeID %>" class="btn btn-danger"><strong>수정</strong></a>
+					<%
+						}
+					%>
+					
+					<h5 style="float: left; padding: 0 5px 0 0;">등록일 : <%=boardBean.getNoticeCreateDate() %></h5>
 				</div>
 			</form>
 		</div>
