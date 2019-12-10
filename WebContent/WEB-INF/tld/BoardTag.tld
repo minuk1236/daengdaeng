@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" xmlns:j2ee="http://java.sun.com/xml/ns/j2ee" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd ">
+  <tlib-version>1.0</tlib-version>
+  <short-name>BoardTag</short-name>
+  
+  <tag>
+  	<name>board</name>
+  	<tag-class>tld.BoardTagHandler</tag-class>
+  	<body-content>empty</body-content>
+  	
+  	<attribute>
+  		<name>type</name>
+  		<type>java.lang.Integer</type>
+  		<required>true</required>
+  		<rtexprvalue>true</rtexprvalue>
+  	</attribute>
+  	<attribute>
+  		<name>pagenumber</name>
+  		<type>java.lang.Integer</type>
+  		<required>true</required>
+  		<rtexprvalue>true</rtexprvalue>
+  	</attribute>
+  	<attribute>
+  		<name>searchtype</name>
+  		<type>java.lang.String</type>
+  		<required>false</required>
+  		<rtexprvalue>true</rtexprvalue>
+  	</attribute>
+  	<attribute>
+  		<name>search</name>
+  		<type>java.lang.String</type>
+  		<required>false</required>
+  		<rtexprvalue>true</rtexprvalue>
+  	</attribute>
+  </tag>
+</taglib>
