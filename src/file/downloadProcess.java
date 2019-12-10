@@ -28,6 +28,7 @@ public class downloadProcess extends HttpServlet {
 		String fileName = request.getParameter("filename");
 		System.out.println(fileName);
 		
+		//한글 깨질까요..
 		String path = "C:\\Users\\MIN\\Desktop\\웹프 프로젝트\\JSPProject\\DaengDaeng\\WebContent\\resources\\upload\\";
 		
 		File file = new File(path+fileName);

@@ -1,3 +1,5 @@
+<%@page import="dao.BoardDAO"%>
+<%@page import="dto.BoardBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -32,15 +34,33 @@
 		if(session.getAttribute("userID") != null){
 			userID = (String) session.getAttribute("userID");
 		}
-		
+
 		if(userID == null){
 			out.println("<script>");
 			out.println("alert('로그인을 하세요.')");
-			out.println("location.href = '/DaengDaeng/account/signin.jsp'");
+			out.println("location.href = '/DaengDaeng/accout/signin.jsp'");
+			out.println("</script>");
+		}
+		int noticeID = 0;
+		if(request.getParameter("noticeNum") != null){
+			noticeID = Integer.parseInt(request.getParameter("noticeNum"));
+		}
+		if(noticeID == 0){
+			out.println("<script>");
+			out.println("alert('유효하지 않는 글입니다.')");
+			out.println("location.href = '/DaengDaeng/board/adoptandmissing.jsp'");
+			out.println("</script>");
+		}
+		BoardBean boardBean = BoardDAO.getInstance().getBoard(noticeID);
+		if(!userID.equals(boardBean.getNoticeWirter())){
+			out.println("<script>");
+			out.println("alert('권한이 없습니다.')");
+			out.println("location.href = '/DaengDaeng/board/adoptandmissing.jsp'");
 			out.println("</script>");
 		}
 	%>
-	<div class="container">
+	
+<div class="container">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="">
@@ -49,30 +69,28 @@
 					<div>
 						<table class="table table-striped table-bordered table-hover ">
 							<tbody align="center">
-								<form method="post" action="writeProcess.jsp" enctype="multipart/form-data">
+								<form action="/DaengDaeng/UpdateProcess?noticeNum=<%=noticeID %>" method="post">
 									<div class="card" style="padding-bottom: 50px;">
 										<div class="card-body">
 											<div class='form-group'>
 												<label for="title" style="color: black;">제목:</label>
-												<input type="text" name="title" id="title" class="form-control" style="width: 50%" placeholder="제목을 입력하세요" />
+												<input type="text" name="title" id="title" class="form-control" style="width: 50%" placeholder="제목을 입력하세요" value="<%=boardBean.getNoticeTitle() %>" />
 											</div>
 
 											<div class='form-group' style="height: 200px">
-												<label for="contents" style="color: black;">내용:</label>
-												<textarea name="contents" id="contents" class="form-control" style="height: 150px"></textarea>
+												<label name="contents" for="contents" style="color: black;">내용:</label>
+												<textarea name="contents" id="contents" class="form-control" style="height: 150px"><%= boardBean.getNoticeContents()%></textarea>
 											</div>
 
 											<div class="form-group" style="border: 1px solid gray">
-												<input type="file" class="form-control-file" id="file" name="file">
+												<input type="file" class="form-control-file" id="file">
 											</div>
 										</div>
 									</div>
-
-									<br>
-									<br>
+									<br><br>
 
 									<div class="text-center">
-										<input style="font-weight: bold;" type="submit" value="작성" class="btn btn-danger">
+										<input style="font-weight: bold;" type="submit" value="수정" class="btn btn-danger">
 									</div>
 								</form>
 							</tbody>

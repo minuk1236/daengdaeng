@@ -46,7 +46,6 @@
 					<%	
 						}else{
 					%>
-						<a href="/DaengDaeng/account/mypage.jsp"><button type="button" class="btn btn-outline-danger" style="height: 40px; margin-top: 30px;">마이페이지</button></a>
 						<a href="/DaengDaeng/account/signout.jsp"><button type="button" class="btn btn-outline-danger" style="height: 40px; margin-top: 30px; margin-left: 20px;">로그아웃</button></a>
 					<%
 						}

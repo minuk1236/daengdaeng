@@ -45,10 +45,12 @@
 		if(noticeID == 0){
 			out.println("<script>");
 			out.println("alert('유효하지 않는 글입니다.')");
-			out.println("location.href = '/DaengDaeng/board/notice.jsp'");
+			out.println("location.href = '/DaengDaeng/board/adoptandmissing.jsp'");
 			out.println("</script>");
 		}
-		BoardBean boardBean = BoardDAO.getInstance().getBoard(noticeID);
+		BoardDAO boardDAO = BoardDAO.getInstance();
+		BoardBean boardBean = boardDAO.getBoard(noticeID);
+		boardDAO.hit(noticeID);
 		
 	%>
 	
@@ -83,24 +85,28 @@
 					</h5>
 					<hr style="border: solid .5px black;">
 					
-					<a style="float: right;" href="/DaengDaeng/board/notice.jsp" class="btn btn-danger"><strong>목록</strong></a>
+					<a style="float: right;" href="/DaengDaeng/board/adoptandmissing.jsp" class="btn btn-danger"><strong>목록</strong></a>
 					<a style="float: right;" href="">&nbsp;&nbsp;&nbsp;</a> 
 					<%
 						if(userID != null && userID.equals(boardBean.getNoticeWirter())){
 					%>
-					<a style="float: right;" href="/DaengDaeng/board/deleteProcess.jsp?noticeNum=<%=noticeID %>" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')"><strong>삭제</strong></a>
+					<a style="float: right;" href="/DaengDaeng/DeleteProcess?noticeNum=<%=noticeID %>" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')"><strong>삭제</strong></a>
 					<a style="float: right;" href="">&nbsp;&nbsp;&nbsp;</a> 
-					<a style="float: right;" href="/DaengDaeng/board/boardUpdate.jsp?noticeNum=<%=noticeID %>" class="btn btn-danger"><strong>수정</strong></a>
+					<a style="float: right;" href="/DaengDaeng/board/adoptandmissingUpdate.jsp?noticeNum=<%=noticeID %>" class="btn btn-danger"><strong>수정</strong></a>
 					<%
 						}
 					%>
 					
 					<h5 style="float: left; padding: 0 5px 0 0;">등록일 : <%=boardBean.getNoticeCreateDate() %><br><br>
-					 첨부 파일 :
-					  <%
-					  	String filename = URLEncoder.encode(boardBean.getNoticeFileName(),"utf-8");
-					  %>
+					<%
+						if(boardBean.getNoticeFileName() != null){
+					%>
+					첨부 파일 :
 					  <input type="submit" id="filename" name="filename" value=<%=boardBean.getNoticeFileName() %> readonly style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;"> </h5>
+					<%
+						}
+					%>
+					 
 					
 					
 				</div>

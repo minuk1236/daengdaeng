@@ -86,7 +86,7 @@ public class BoardDAO {
 		return -1; //데이터베이스 오류
 	}
 	
-	public ArrayList<BoardBean> getList(int pageNumber){
+	public ArrayList<BoardBean> getList(int type, int pageNumber){
 		ArrayList<BoardBean> list = new ArrayList<BoardBean>();
 		int nextBoard; // 다음 글 번호 
 		try {
@@ -101,9 +101,10 @@ public class BoardDAO {
 				nextBoard = 1; // 첫번째 게시글 인 경우
 			}
 			
-			sql = "select * from board where notice_num < ? order by notice_num desc limit 10";
+			sql = "select * from board where notice_num < ? and notice_type = ? order by notice_num desc limit 10";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, nextBoard - (pageNumber -1) * 10);
+			pstmt.setInt(1, nextBoard - (pageNumber-1) * 10);
+			pstmt.setInt(2, type);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				BoardBean boardBean = new BoardBean();
@@ -130,23 +131,62 @@ public class BoardDAO {
 		return list;
 	}
 	
-	public boolean nextPage(int pageNumber) {
-		int nextBoard; // 다음 글 번호 
+	// 검색부분
+	public ArrayList<BoardBean> getSearchList(int type, String searchType, String search, int pageNumber){
+		ArrayList<BoardBean> list = null;
+		String sql = null;
+		
 		try {
 			conn = DBConnection.getConnection();
-			// 내림차순 하여 제일 위에있는 글 번호를 가져오기 
-			String sql = "select notice_num from board order by notice_num desc";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				nextBoard = rs.getInt(1) + 1;
-			}else {
-				nextBoard = 1; // 첫번째 게시글 인 경우
+			
+			if(searchType.equals("title")) {
+				sql = "select * from board where notice_type = ? and notice_title LIKE ? order by notice_num desc limit " + (pageNumber-1) * 9 + ", " + (pageNumber-1) * 9 + 10;
+			}else if(searchType.equals("contents")) {
+				sql = "select * from board where notice_type = ? and notice_contents LIKE ? order by notice_num desc limit " + (pageNumber-1) * 9 + ", " + (pageNumber-1) * 9 + 10;
+			}else if(searchType.equals("writer")) {
+				sql = "select * from board where notice_type = ? and notice_writer LIKE ? order by notice_num desc limit " + (pageNumber-1) * 9 + ", " + (pageNumber-1) * 9 + 10;
 			}
 			
-			sql = "select * from board where notice_num < ? order by notice_num desc";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, nextBoard - (pageNumber -1) * 10);
+			pstmt.setInt(1, type);
+			pstmt.setString(2,"%" + search + "%");
+			rs = pstmt.executeQuery();
+			list = new ArrayList<BoardBean>();
+			while(rs.next()) {
+				BoardBean boardBean = new BoardBean();
+				boardBean.setNoticeNum(rs.getInt(1));
+				boardBean.setNoticeType(rs.getInt(2));
+				boardBean.setNoticeTitle(rs.getString(3));
+				boardBean.setNoticeContents(rs.getString(4));
+				boardBean.setNoticeWirter(rs.getString(5));
+				boardBean.setNoticeCreateDate(rs.getString(6));
+				boardBean.setNoticeModifyDate(rs.getString(7));
+				boardBean.setNoticeViewsnum(rs.getInt(8));
+				boardBean.setNoticeFileName(rs.getString(9));
+				boardBean.setNoticeFileRealName(rs.getString(10));
+				boardBean.setNoticeFileurl(rs.getString(11));
+				list.add(boardBean);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt);
+			DBConnection.close(rs);
+			DBConnection.close(conn);
+		}
+		
+		return list;
+		
+	}
+	
+	public boolean nextPage(int type,int pageNumber) {
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "select * from board where notice_num > ? and notice_type = ?";
+			pstmt = conn.prepareStatement(sql);
+	
+			pstmt.setInt(1, pageNumber * 10);
+			pstmt.setInt(2, type);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return true; 
@@ -159,6 +199,27 @@ public class BoardDAO {
 			DBConnection.close(conn);
 		}
 		return false;
+	}
+	public int targetPage(int type, int pageNumber) {
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "select count(notice_num) from board where notice_num > ? and notice_type = ?";
+			pstmt = conn.prepareStatement(sql);
+	
+			pstmt.setInt(1, (pageNumber-1) * 10);
+			pstmt.setInt(2, type);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getInt(1)/10; 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt);
+			DBConnection.close(rs);
+			DBConnection.close(conn);
+		}
+		return 0;
 	}
 	
 	public BoardBean getBoard(int noticeID) {
@@ -246,4 +307,24 @@ public class BoardDAO {
 		return -1; //데이터베이스 오류
 	}
 	
+	public int hit(int noticeID) {
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "update board set notice_viewsnum = notice_viewsnum + 1 where notice_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, noticeID);
+			pstmt.executeUpdate();
+			return 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt);
+			DBConnection.close(rs);
+			DBConnection.close(conn);
+			
+		}
+		return -1; //데이터베이스 오류
+	}
+
 }
