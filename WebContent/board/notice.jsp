@@ -96,8 +96,6 @@
 								<boardtag:board pagenumber="${pagenumber }" type="1" searchtype="${searchtype }" search="${search }"/>
 							</c:when>
 						</c:choose>
-						
-						
 					</tbody>
 				</table>
 

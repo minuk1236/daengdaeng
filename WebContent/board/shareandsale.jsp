@@ -1,5 +1,7 @@
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.util.ArrayList"%>
+<%@ taglib uri="/WEB-INF/tld/BoardTag.tld" prefix="boardtag" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="dao.BoardDAO" %>
@@ -81,27 +83,18 @@
 						</tr>
 					</thead>
 					<tbody style="background-color: white;">
-						<%
-							BoardDAO boardDAO = BoardDAO.getInstance();
-							ArrayList<BoardBean> list = null;
-							if(search.equals("")){
-								list = boardDAO.getList(5,pageNumber);
-							}else{
-								list = boardDAO.getSearchList(5,searchType, search, pageNumber);
-							}
-							for(BoardBean board : list){
-						%>
-						<tr>
-							<th scope="row"><%=board.getNoticeNum() %></th>
-							<td><a href="shareandsaleDetail.jsp?noticeNum=<%=URLEncoder.encode(String.valueOf(board.getNoticeNum()),"utf-8")  %>" style="color: #000000; text_decoration: none;"><%=board.getNoticeTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>") %></a></td>
-							<td><%=board.getNoticeWirter() %></td>
-							<td><%=board.getNoticeCreateDate() %></td>
-							<td><%=board.getNoticeViewsnum() %></td>
-						</tr>
-						
-						<%		
-							}
-						%>
+						<c:set value="<%=search %>" var="search"/>
+						<c:set value="<%=pageNumber %>" var="pagenumber"/>
+						<c:set value="<%=searchType %>" var="searchtype"/>
+						<c:set value="<%=search %>" var="search"/>
+						<c:choose>
+							<c:when test="${empty search }">
+								<boardtag:board pagenumber="${pagenumber }" type="5"/>
+							</c:when>
+							<c:when test="${not empty search }">
+								<boardtag:board pagenumber="${pagenumber }" type="5" searchtype="${searchtype }" search="${search }"/>
+							</c:when>
+						</c:choose>
 					</tbody>
 				</table>
 
@@ -133,6 +126,7 @@
 				<nav aria-label="Page navigation example">
 					<ul class="pagination justify-content-center font_color">
 						<%
+							BoardDAO boardDAO = BoardDAO.getInstance();
 							int startPage = (pageNumber % 10);
 							if(pageNumber % 10 == 0) startPage -= 10;
 							int targetPage = boardDAO.targetPage(5,pageNumber);
