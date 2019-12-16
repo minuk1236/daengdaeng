@@ -56,7 +56,7 @@
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
 			<br><br>
-			<form>
+			<form id="form" name="form" method="get" action="/DaengDaeng/downloadProcess">
 				<div class="card" style="background-color: rgba(255, 238, 212, 0.445);">
 					<div class="card-header" style="background-color: rgb(253, 77, 77);">
 						<div class="row">

@@ -45,7 +45,7 @@ public class downloadProcess extends HttpServlet {
 		}else {
 			downloadName = new String(fileName.getBytes(),"8859_1");
 		}
-		System.out.println(downloadName);
+		//System.out.println(downloadName);
 		
 		response.setHeader("content-Disposition", "attachment;filename=\""+downloadName+ "\";");
 	
